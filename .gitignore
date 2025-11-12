@@ -1,0 +1,31 @@
+# Logs
+logs/
+
+# Generated data (precomputed assets are now committed for deployment)
+# visualization_data_*.json
+# course_metadata_cache.json
+# bm25_index.pkl
+
+# Old embedding files - NOT USED (using precomputed visualization instead)
+# embeddings_matrix.npy
+# embeddings_metadata.json
+*embeddings*.json
+topic_embeddings*.json
+react-frontend/dist/topic_embeddings*.json
+
+# Node dependencies
+react-frontend/node_modules/
+
+# Python virtual environment (if used)
+venv/
+*.pyc
+__pycache__/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Environment variables
+.env*
+!.env.example
+.env

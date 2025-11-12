@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: skills4deca
+    env: python
+    runtime: python-3.11.9
+    buildCommand: |
+      pip install --upgrade pip setuptools wheel
+      pip install -r requirements-production.txt
+      pip install gunicorn
+      cd react-frontend && npm install && npm run build && cd ..
+      cp -r react-frontend/dist static
+      echo "Frontend build complete. Files in static:"
+      ls -la static/
+      echo "Checking visualization dataset..."
+      ls -lh visualization_data_precomputed.json 2>&1 || echo "Visualization dataset missing"
+      echo "Precomputed assets check finished"
+    startCommand: gunicorn --bind 0.0.0.0:$PORT --workers 1 --threads 2 --timeout 180 --max-requests 1000 --max-requests-jitter 50 --preload app:app
+    plan: free
+    envVars:
+      - key: DEEPINFRA_API_KEY
+        sync: false
+      - key: FIREWORKS_API_KEY
+        sync: false
+    healthCheckPath: /api/health
+    autoDeploy: false
